@@ -1,0 +1,21 @@
+{
+    "name": "shopping/shoppi",
+    "description": "Shopp!ng User Authentication Library",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Opata Chibueze",
+            "email": "opatac@shoppi.ng"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Shopping\\Shoppi\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
