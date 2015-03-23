@@ -167,15 +167,15 @@ class BaseModel {
     /**
      * Make a http request using the APiUser class
      * Once a user is authenticated, you can use this class to make authenticated requests
-     * @param  string  $url            The url to make a request to
+     * @param  string  $path            The path to make a request to
      * @param  string  [$method        = 'GET']         The method to use in making this request. Default is 'GET'
      * @param  mixed   [$postdata      = NULL]          The post data to use if any. This should have been built with http_build_query
      * @param  boolean [$authenticated = false]         True if this should be an authenticated request
      * @return string  Returns a string representation of the request's response
      */
-    public function request($url, $method = 'GET', $postdata = NULL, $authenticated = false)
+    public function request($path, $method = 'GET', $postdata = NULL, $authenticated = false)
     {
-        return $this->authUser->httpRequest($url, $method, $postdata, $authenticated);
+        return $this->authUser->httpRequest($this->baseUrl . $path, $method, $postdata, $authenticated);
     }
     
     /**
