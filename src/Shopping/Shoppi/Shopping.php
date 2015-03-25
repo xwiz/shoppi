@@ -62,9 +62,10 @@ class Shopping
             Session::set('authUser', $authUser);
             //create new ApiUserModel from api_user_id and assign to apiUser
             $apiUser = new ApiUserModel;
-            $apiUser->findByEmail($email);
-            Session::set('apiUser', $apiUser);
-            return $apiUser;
+            $apiUser = $apiUser->findByEmail($email);
+            $user = new ApiUserModel((array)$apiUser);
+            Session::set('apiUser', $user);
+            return $user;
         }
         else
         {

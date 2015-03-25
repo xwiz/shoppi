@@ -35,12 +35,7 @@ class ApiUserModel extends BaseModel
     
     public function findByEmail($email)
     {
-        $data = $this->jsonRequest("users/lookup/$email");
-        if($data != null)
-        {
-            $this->setData((array)$data);
-        }
-        return $this;
+        return $this->jsonRequest("users/lookup/$email");
     }
     
 }

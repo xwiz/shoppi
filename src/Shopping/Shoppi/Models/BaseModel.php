@@ -2,7 +2,6 @@
 
 namespace Shopping\Shoppi\Models;
 
-use \Illuminate\Support\Facades\Auth;
 use \Illuminate\Support\Facades\Session;
 use Shopping\Shoppi\ApiUser;
 
@@ -64,7 +63,7 @@ class BaseModel {
      */
     public function __construct(Array $properties = array(), $create = false)
     {
-        if(Auth::check())
+        if(Session::has('authUser'))
         {
             $this->authUser = Session::get('authUser');
         }
@@ -111,21 +110,6 @@ class BaseModel {
         return array_key_exists($property, $this->_data)
             ? $this->_data[$property]
             : null;
-    }
-    
-    /**
-     * Sets the properties data for this class
-     * @param  Array $data The array of data to set
-     * @return boolean  True if successful, otherwise false
-     */
-    public function setData($data)
-    {
-        if(is_array($data))
-        {
-            return false;
-        }
-        $this->_data = $data;
-        return true;
     }
     
     /**
@@ -200,12 +184,12 @@ class BaseModel {
      * @param  string  [$method        = 'GET']         The method to use in making this request. Default is 'GET'
      * @param  mixed   [$postdata      = NULL]          The post data to use if any. This should have been built with http_build_query
      * @param  boolean [$authenticated = false]         True if this should be an authenticated request
-     * @return string  Returns a JSON of the request's response
+     * @return string  Returns a JSON decoded form of the request response
      */
     public function jsonRequest($path, $method = 'GET', $postdata = NULL, $authenticated = false)
     {
         $result = $this->authUser->httpRequest($this->baseUrl . $path, $method, $postdata, $authenticated);
-        return json_encode($result);
+        return json_decode($result);
     }
     
     /**
