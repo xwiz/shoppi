@@ -31,7 +31,7 @@ class Shopping
         //user email and encrypted password must be flashed to the Session when a user is authenticated
         if(!Session::has('api_email') || !Session::has('api_password'))
         {
-            throw new \Exception('User email and password must be flashed to the session to use this library. See sample code for details');
+            throw new \Exception('User email and password must be flashed to the session to use this method. See sample code for details');
         }
         $email = Session::get('api_email');
         $cpwd = Session::get('api_password');
@@ -40,12 +40,22 @@ class Shopping
     
     /**
      * Attempts to directly authenticate a user to the API
-     * @param  string $email    The user email for authentication
+     * @param  mixed The credentials array or user email for authentication
      * @param  string $password The password for authentication
      * @return mixed The ApiUserModel or false on authentication failure
      */
-    public static function authenticate($email, $password)
+    public static function authenticate($mixed, $password)
     {
+        $authUser = new ApiUser;
+        if(is_array($mixed))
+        {
+            $email = $mixed['email'];
+            $password = $mixed['password'];
+        }
+        else
+        {
+            $email = $mixed;
+        }
         if($authUser->authenticate($email, $password))
         {
             //set authUser so BaseModels can automatically inherit
