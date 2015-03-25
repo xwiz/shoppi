@@ -113,6 +113,11 @@ class BaseModel {
             : null;
     }
     
+    /**
+     * Sets the properties data for this class
+     * @param  Array $data The array of data to set
+     * @return boolean  True if successful, otherwise false
+     */
     public function setData($data)
     {
         if(is_array($data))
@@ -195,7 +200,7 @@ class BaseModel {
      * @param  string  [$method        = 'GET']         The method to use in making this request. Default is 'GET'
      * @param  mixed   [$postdata      = NULL]          The post data to use if any. This should have been built with http_build_query
      * @param  boolean [$authenticated = false]         True if this should be an authenticated request
-     * @return string  Returns a string representation of the request's response
+     * @return string  Returns a JSON of the request's response
      */
     public function jsonRequest($path, $method = 'GET', $postdata = NULL, $authenticated = false)
     {

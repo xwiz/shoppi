@@ -21,6 +21,10 @@ class Shopping
         return Session::get('apiUser');
     }
     
+    /**
+     * Attempts to login the user using the credentials stored in session
+     * @return mixed The ApiUserModel or false on authentication failure
+     */
     public static function login()
     {
         $authUser = new ApiUser;
@@ -34,6 +38,12 @@ class Shopping
         return Shopping::authenticate($email, Crypt::decrypt($cpwd));
     }
     
+    /**
+     * Attempts to directly authenticate a user to the API
+     * @param  string $email    The user email for authentication
+     * @param  string $password The password for authentication
+     * @return mixed The ApiUserModel or false on authentication failure
+     */
     public static function authenticate($email, $password)
     {
         if($authUser->authenticate($email, $password))
@@ -48,11 +58,59 @@ class Shopping
         }
         else
         {
-            //authentication failed, so flash data again for possible re-authentication
-            ret false;
+            return false;
         }        
     }
     
+    /**
+     * Make a http request using the APiUser class
+     * Once a user is authenticated, you can use this class to make authenticated requests
+     * @param  string  $path            The path to make a request to
+     * @param  string  [$method        = 'GET']         The method to use in making this request. Default is 'GET'
+     * @param  mixed   [$postdata      = NULL]          The post data to use if any. This should have been built with http_build_query
+     * @param  boolean [$authenticated = false]         True if this should be an authenticated request
+     * @return string  Returns a string representation of the request's response
+     */
+    public static function request($path, $method = 'GET', $postdata = NULL, $authenticated = false)
+    {
+        $apiUser = Session::get('apiUser');
+        if($apiUser)
+        {
+            $apiUser->request($path, $method, $postdata, true);
+        }
+        else
+        {
+            $apiUser = new ApiUserModel;
+            $apiUser->request($path, $method, $postdata, false);
+        }
+    }
+    
+    /**
+     * Make a http request using the APiUser class
+     * Once a user is authenticated, you can use this class to make authenticated requests
+     * @param  string  $path            The path to make a request to
+     * @param  string  [$method        = 'GET']         The method to use in making this request. Default is 'GET'
+     * @param  mixed   [$postdata      = NULL]          The post data to use if any. This should have been built with http_build_query
+     * @param  boolean [$authenticated = false]         True if this should be an authenticated request
+     * @return string  Returns a json representation of the request's response
+     */
+    public static function jsonRequest($path, $method = 'GET', $postdata = NULL, $authenticated = false)
+    {
+        $apiUser = Session::get('apiUser');
+        if($apiUser)
+        {
+            $apiUser->jsonRequest($path, $method, $postdata, true);
+        }
+        else
+        {
+            $apiUser = new ApiUserModel;
+            $apiUser->jsonRequest($path, $method, $postdata, false);
+        }
+    }
+    
+    /**
+     * Removes the current authenticated user from session if any
+     */
     public static function logout()
     {
         //delete authUser and apiUser form session
