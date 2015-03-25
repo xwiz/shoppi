@@ -33,4 +33,14 @@ class ApiUserModel extends BaseModel
      */
     protected $deleteUrl = 'users/%d';
     
+    public function findByEmail($email)
+    {
+        $data = $this->jsonRequest("users/lookup/$email");
+        if($data != null)
+        {
+            $this->setData((array)$data);
+        }
+        return $this;
+    }
+    
 }

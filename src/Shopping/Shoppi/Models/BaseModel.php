@@ -113,6 +113,16 @@ class BaseModel {
             : null;
     }
     
+    public function setData($data)
+    {
+        if(is_array($data))
+        {
+            return false;
+        }
+        $this->_data = $data;
+        return true;
+    }
+    
     /**
      * Get class/model data from API using specified ID
      * @param int    $id     The ID of the model to retrieve
@@ -176,6 +186,21 @@ class BaseModel {
     public function request($path, $method = 'GET', $postdata = NULL, $authenticated = false)
     {
         return $this->authUser->httpRequest($this->baseUrl . $path, $method, $postdata, $authenticated);
+    }    
+
+    /**
+     * Make a http request using the APiUser class
+     * Once a user is authenticated, you can use this class to make authenticated requests
+     * @param  string  $path            The path to make a request to
+     * @param  string  [$method        = 'GET']         The method to use in making this request. Default is 'GET'
+     * @param  mixed   [$postdata      = NULL]          The post data to use if any. This should have been built with http_build_query
+     * @param  boolean [$authenticated = false]         True if this should be an authenticated request
+     * @return string  Returns a string representation of the request's response
+     */
+    public function jsonRequest($path, $method = 'GET', $postdata = NULL, $authenticated = false)
+    {
+        $result = $this->authUser->httpRequest($this->baseUrl . $path, $method, $postdata, $authenticated);
+        return json_encode($result);
     }
     
     /**

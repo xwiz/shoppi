@@ -31,24 +31,29 @@ class Shopping
         }
         $email = Session::get('api_email');
         $cpwd = Session::get('api_password');
-        if($authUser->authenticate($email, Crypt::decrypt($cpwd)))
+        return Shopping::authenticate($email, Crypt::decrypt($cpwd));
+    }
+    
+    public static function authenticate($email, $password)
+    {
+        if($authUser->authenticate($email, $password))
         {
             //set authUser so BaseModels can automatically inherit
             Session::set('authUser', $authUser);
             //create new ApiUserModel from api_user_id and assign to apiUser
             $apiUser = new ApiUserModel;
-            $apiUser->find($user->api_user_id);
+            $apiUser->findByEmail($email);
             Session::set('apiUser', $apiUser);
+            return $apiUser;
         }
         else
         {
             //authentication failed, so flash data again for possible re-authentication
-            Session::flash('api_email', $email);
-            Session::flash('api_password', $cpwd);
-        }
+            ret false;
+        }        
     }
     
-    public function logout()
+    public static function logout()
     {
         //delete authUser and apiUser form session
         if(Session::has('authUser'))
