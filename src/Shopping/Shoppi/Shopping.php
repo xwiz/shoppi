@@ -76,7 +76,7 @@ class Shopping
     /**
      * Make a http request using the APiUser class
      * Once a user is authenticated, you can use this class to make authenticated requests
-     * @param  string  $path            The path to make a request to
+     * @param  string  $path            The path (without the base url) to make a request to
      * @param  string  [$method        = 'GET']         The method to use in making this request. Default is 'GET'
      * @param  mixed   [$postdata      = NULL]          The post data to use if any. This should have been built with http_build_query
      * @param  boolean [$authenticated = false]         True if this should be an authenticated request
@@ -87,19 +87,19 @@ class Shopping
         $apiUser = Session::get('apiUser');
         if($apiUser)
         {
-            $apiUser->request($path, $method, $postdata, true);
+            return $apiUser->request($path, $method, $postdata, true);
         }
         else
         {
             $apiUser = new ApiUserModel;
-            $apiUser->request($path, $method, $postdata, false);
+            return $apiUser->request($path, $method, $postdata, false);
         }
     }
     
     /**
      * Make a http request using the APiUser class
      * Once a user is authenticated, you can use this class to make authenticated requests
-     * @param  string  $path            The path to make a request to
+     * @param  string  $path            The path (without the base url) to make a request to
      * @param  string  [$method        = 'GET']         The method to use in making this request. Default is 'GET'
      * @param  mixed   [$postdata      = NULL]          The post data to use if any. This should have been built with http_build_query
      * @param  boolean [$authenticated = false]         True if this should be an authenticated request
@@ -110,12 +110,12 @@ class Shopping
         $apiUser = Session::get('apiUser');
         if($apiUser)
         {
-            $apiUser->jsonRequest($path, $method, $postdata, true);
+            return $apiUser->jsonRequest($path, $method, $postdata, true);
         }
         else
         {
             $apiUser = new ApiUserModel;
-            $apiUser->jsonRequest($path, $method, $postdata, false);
+            return $apiUser->jsonRequest($path, $method, $postdata, false);
         }
     }
     
