@@ -1,7 +1,7 @@
 <?php namespace Shopping\Shoppi\Events;
  
 use Shopping\Shoppi\Shopping;
-use Illuminate\Support\Facades\Config:
+use Illuminate\Support\Facades\Config;
 
 class AuthEventSubscriber {
     
