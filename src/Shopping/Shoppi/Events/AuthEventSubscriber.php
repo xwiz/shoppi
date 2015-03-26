@@ -1,6 +1,7 @@
 <?php namespace Shopping\Shoppi\Events;
  
 use Shopping\Shoppi\Shopping;
+use Illuminate\Support\Facades\Config:
 
 class AuthEventSubscriber {
     
@@ -28,7 +29,11 @@ class AuthEventSubscriber {
      */
     public function subscribe($events)
     {
-        $events->listen('auth.login', 'Shopping\Shoppi\Events\AuthEventSubscriber@onLogin');
-        $events->listen('auth.logout', 'Shopping\Shoppi\Events\AuthEventSubscriber@onLogout');
+        //only subscribe to auth events if the Shopping Auth Driver is used.
+        if(Config::get('auth.driver') === 'shopping_auth')
+        {
+            $events->listen('auth.login', 'Shopping\Shoppi\Events\AuthEventSubscriber@onLogin');
+            $events->listen('auth.logout', 'Shopping\Shoppi\Events\AuthEventSubscriber@onLogout');
+        }
     }
 }

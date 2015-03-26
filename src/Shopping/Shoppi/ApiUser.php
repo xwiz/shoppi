@@ -124,8 +124,8 @@ class ApiUser
             }
             catch(Exception $e)
             {
-                array_push($this->errors, $e);
-                return $e;
+                array_push($this->errors, $e->getMessage());
+                return $e->getMessage();
             }
         }
         elseif($postdata)
@@ -147,8 +147,8 @@ class ApiUser
             }
             catch(Exception $e)
             {
-                array_push($this->errors, $e);
-                return $e;
+                array_push($this->errors, $e->getMessage());
+                return $e->getMessage();
             }
         }
         elseif($authenticated)
@@ -169,8 +169,8 @@ class ApiUser
             }
             catch(Exception $e)
             {
-                array_push($this->errors, $e);
-                return $e;
+                array_push($this->errors, $e->getMessage());
+                return $e->getMessage();
             }
         }
         else
@@ -181,8 +181,8 @@ class ApiUser
             }
             catch(Exception $e)
             {
-                array_push($this->errors, $e);
-                return $e;
+                array_push($this->errors, $e->getMessage());
+                return $e->getMessage();
             }
         }
     }
